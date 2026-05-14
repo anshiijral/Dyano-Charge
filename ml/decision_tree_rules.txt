@@ -1,0 +1,160 @@
+|--- A_SCORE_DIFF <= 0.28
+|   |--- GRID_HEADROOM <= 5.00
+|   |   |--- class: 1
+|   |--- GRID_HEADROOM >  5.00
+|   |   |--- A_OCCUPANCY <= 2.50
+|   |   |   |--- B_SCORE_DIFF <= 14.96
+|   |   |   |   |--- A_WAITING_TIME <= 9.80
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- A_WAITING_TIME >  9.80
+|   |   |   |   |   |--- A_OCCUPANCY <= 1.50
+|   |   |   |   |   |   |--- B_OCCUPANCY <= 1.50
+|   |   |   |   |   |   |   |--- B_WAITING_TIME <= 8.85
+|   |   |   |   |   |   |   |   |--- BEST_SCORE <= 32.15
+|   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |   |--- BEST_SCORE >  32.15
+|   |   |   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |   |   |--- B_WAITING_TIME >  8.85
+|   |   |   |   |   |   |   |   |--- C_DISTANCE <= 0.90
+|   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |   |--- C_DISTANCE >  0.90
+|   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |--- B_OCCUPANCY >  1.50
+|   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |--- A_OCCUPANCY >  1.50
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |--- B_SCORE_DIFF >  14.96
+|   |   |   |   |--- C_SCORE_DIFF <= 14.22
+|   |   |   |   |   |--- B_SCORE <= 71.16
+|   |   |   |   |   |   |--- C_LOAD <= 75.00
+|   |   |   |   |   |   |   |--- C_WAITING_TIME <= 18.80
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |--- C_WAITING_TIME >  18.80
+|   |   |   |   |   |   |   |   |--- GRID_HEADROOM <= 44.00
+|   |   |   |   |   |   |   |   |   |--- C_SCORE <= 56.88
+|   |   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |   |   |--- C_SCORE >  56.88
+|   |   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |   |--- GRID_HEADROOM >  44.00
+|   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |--- C_LOAD >  75.00
+|   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |--- B_SCORE >  71.16
+|   |   |   |   |   |   |--- B_LOAD_STATUS <= 1.50
+|   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |--- B_LOAD_STATUS >  1.50
+|   |   |   |   |   |   |   |--- B_LOAD <= 69.50
+|   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |--- B_LOAD >  69.50
+|   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |--- C_SCORE_DIFF >  14.22
+|   |   |   |   |   |--- A_SAFE <= 0.50
+|   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |--- A_SAFE >  0.50
+|   |   |   |   |   |   |--- class: 0
+|   |   |--- A_OCCUPANCY >  2.50
+|   |   |   |--- B_WAITING_TIME <= 25.90
+|   |   |   |   |--- class: 2
+|   |   |   |--- B_WAITING_TIME >  25.90
+|   |   |   |   |--- class: 1
+|--- A_SCORE_DIFF >  0.28
+|   |--- C_SCORE_DIFF <= 0.24
+|   |   |--- GRID_HEADROOM <= 5.00
+|   |   |   |--- class: 1
+|   |   |--- GRID_HEADROOM >  5.00
+|   |   |   |--- SAFE_STATION_COUNT <= 0.50
+|   |   |   |   |--- class: 1
+|   |   |   |--- SAFE_STATION_COUNT >  0.50
+|   |   |   |   |--- B_SCORE_DIFF <= 12.96
+|   |   |   |   |   |--- C_OCCUPANCY <= 0.50
+|   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |--- C_OCCUPANCY >  0.50
+|   |   |   |   |   |   |--- B_WAITING_TIME <= 11.55
+|   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |   |--- B_WAITING_TIME >  11.55
+|   |   |   |   |   |   |   |--- B_LOAD <= 55.00
+|   |   |   |   |   |   |   |   |--- C_WAITING_TIME <= 16.65
+|   |   |   |   |   |   |   |   |   |--- A_SCORE <= 46.05
+|   |   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |   |   |--- A_SCORE >  46.05
+|   |   |   |   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |   |   |   |--- C_WAITING_TIME >  16.65
+|   |   |   |   |   |   |   |   |   |--- C_LOAD_STATUS <= 1.50
+|   |   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |   |   |--- C_LOAD_STATUS >  1.50
+|   |   |   |   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |   |   |--- B_LOAD >  55.00
+|   |   |   |   |   |   |   |   |--- A_WAITING_TIME <= 22.15
+|   |   |   |   |   |   |   |   |   |--- C_WAITING_TIME <= 14.45
+|   |   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |   |   |--- C_WAITING_TIME >  14.45
+|   |   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |   |--- A_WAITING_TIME >  22.15
+|   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |--- B_SCORE_DIFF >  12.96
+|   |   |   |   |   |--- A_SCORE_DIFF <= 14.42
+|   |   |   |   |   |   |--- C_OCCUPANCY <= 0.50
+|   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |--- C_OCCUPANCY >  0.50
+|   |   |   |   |   |   |   |--- A_SAFE <= 0.50
+|   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |--- A_SAFE >  0.50
+|   |   |   |   |   |   |   |   |--- A_WAITING_TIME <= 16.80
+|   |   |   |   |   |   |   |   |   |--- A_WAITING_TIME <= 9.00
+|   |   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |   |   |--- A_WAITING_TIME >  9.00
+|   |   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |   |--- A_WAITING_TIME >  16.80
+|   |   |   |   |   |   |   |   |   |--- A_SCORE_DIFF <= 5.99
+|   |   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |   |   |--- A_SCORE_DIFF >  5.99
+|   |   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- A_SCORE_DIFF >  14.42
+|   |   |   |   |   |   |--- class: 3
+|   |--- C_SCORE_DIFF >  0.24
+|   |   |--- GRID_HEADROOM <= 5.40
+|   |   |   |--- class: 1
+|   |   |--- GRID_HEADROOM >  5.40
+|   |   |   |--- B_SAFE <= 0.50
+|   |   |   |   |--- SAFE_STATION_COUNT <= 0.50
+|   |   |   |   |   |--- class: 1
+|   |   |   |   |--- SAFE_STATION_COUNT >  0.50
+|   |   |   |   |   |--- B_LOAD <= 27.50
+|   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |--- B_LOAD >  27.50
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |--- B_SAFE >  0.50
+|   |   |   |   |--- B_OCCUPANCY <= 0.50
+|   |   |   |   |   |--- class: 2
+|   |   |   |   |--- B_OCCUPANCY >  0.50
+|   |   |   |   |   |--- A_SCORE_DIFF <= 15.10
+|   |   |   |   |   |   |--- B_OCCUPANCY <= 1.50
+|   |   |   |   |   |   |   |--- C_DISTANCE <= 5.70
+|   |   |   |   |   |   |   |   |--- C_LOAD <= 84.50
+|   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |   |   |--- C_LOAD >  84.50
+|   |   |   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |   |   |--- C_DISTANCE >  5.70
+|   |   |   |   |   |   |   |   |--- BATTERY <= 69.00
+|   |   |   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |   |   |   |--- BATTERY >  69.00
+|   |   |   |   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |   |--- B_OCCUPANCY >  1.50
+|   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |--- A_SCORE_DIFF >  15.10
+|   |   |   |   |   |   |--- C_SCORE_DIFF <= 16.53
+|   |   |   |   |   |   |   |--- A_DISTANCE <= 4.35
+|   |   |   |   |   |   |   |   |--- C_DISTANCE <= 3.15
+|   |   |   |   |   |   |   |   |   |--- A_WAITING_TIME <= 30.90
+|   |   |   |   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |   |   |   |   |--- A_WAITING_TIME >  30.90
+|   |   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |   |--- C_DISTANCE >  3.15
+|   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |   |--- A_DISTANCE >  4.35
+|   |   |   |   |   |   |   |   |--- C_SCORE <= 73.78
+|   |   |   |   |   |   |   |   |   |--- class: 2
+|   |   |   |   |   |   |   |   |--- C_SCORE >  73.78
+|   |   |   |   |   |   |   |   |   |--- class: 3
+|   |   |   |   |   |   |--- C_SCORE_DIFF >  16.53
+|   |   |   |   |   |   |   |--- class: 2
