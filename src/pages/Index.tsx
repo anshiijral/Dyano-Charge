@@ -1,27 +1,87 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, Search, Sparkles } from "lucide-react";
+
 import { MapView, type Station } from "@/components/ev/MapView";
 import { BatteryStatus } from "@/components/ev/BatteryStatus";
 import { StationDetails } from "@/components/ev/StationDetails";
 import { ConfirmationScreen } from "@/components/ev/ConfirmationScreen";
 import { StepIndicator } from "@/components/ev/StepIndicator";
-import { Button } from "@/components/ui/button";
 
-const STATIONS: Station[] = [
-  { id: "s1", name: "GreenVolt · Central", x: 28, y: 32, distance: "0.8 km", load: 35, freeSlots: 4, totalSlots: 6, waitMin: 0 },
-  { id: "s2", name: "EcoCharge · Riverside", x: 70, y: 38, distance: "1.4 km", load: 72, freeSlots: 1, totalSlots: 5, waitMin: 8 },
-  { id: "s3", name: "PulsePoint · North", x: 35, y: 72, distance: "2.1 km", load: 88, freeSlots: 0, totalSlots: 4, waitMin: 18 },
-  { id: "s4", name: "VoltHub · Market St.", x: 78, y: 70, distance: "2.6 km", load: 48, freeSlots: 3, totalSlots: 8, waitMin: 2 },
-];
+import {
+  subscribeToDashboardData,
+  writeRecommendationToFirebase,
+  type DashboardData,
+} from "@/services/stationService";
+import { getRecommendation } from "@/lib/decisionLogic";
+
+const convertFirebaseToStations = (data: DashboardData): Station[] => {
+  return [
+    {
+      id: "A",
+      name: "Station A",
+      distance: `${data.stations.A.distance} km`,
+      load: data.stations.A.load,
+      loadStatus: data.stations.A.loadStatus,
+      occupancy: data.stations.A.occupancy,
+      waitingTime: data.stations.A.waitingTime,
+      available: data.stations.A.occupancy < 3,
+    },
+    {
+      id: "B",
+      name: "Station B",
+      distance: `${data.stations.B.distance} km`,
+      load: data.stations.B.load,
+      loadStatus: data.stations.B.loadStatus,
+      occupancy: data.stations.B.occupancy,
+      waitingTime: data.stations.B.waitingTime,
+      available: data.stations.B.occupancy < 3,
+    },
+    {
+      id: "C",
+      name: "Station C",
+      distance: `${data.stations.C.distance} km`,
+      load: data.stations.C.load,
+      loadStatus: data.stations.C.loadStatus,
+      occupancy: data.stations.C.occupancy,
+      waitingTime: data.stations.C.waitingTime,
+      available: data.stations.C.occupancy < 3,
+    },
+  ];
+};
 
 const Index = () => {
+  const [data, setData] = useState<DashboardData | null>(null);
+
   // 0 locate · 1 stations · 2 details · 3 metrics · 4 booking · 5 confirmed
   const [step, setStep] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [battery, setBattery] = useState(28);
+  const [manualBattery, setManualBattery] = useState(28);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToDashboardData(async (liveData) => {
+      setData(liveData);
+
+      const result = getRecommendation(liveData);
+      await writeRecommendationToFirebase(result.station, result.reason);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (!data) {
+    return (
+      <main className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-sm font-semibold">Loading live DyanoCharge data...</p>
+      </main>
+    );
+  }
+
+  const battery = data.vehicle.battery ?? manualBattery;
   const range = Math.round((battery / 100) * 335);
-  const selected = STATIONS.find((s) => s.id === selectedId) ?? null;
+
+  const stations = convertFirebaseToStations(data);
+  const selected = stations.find((s) => s.id === selectedId) ?? null;
 
   // Auto-advance step 0 → 1
   useEffect(() => {
@@ -54,12 +114,46 @@ const Index = () => {
                 <Sparkles className="w-4 h-4 text-primary-foreground" />
               </div>
               <div>
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Smart Mobility</p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">
+                  Smart Mobility
+                </p>
                 <p className="text-sm font-bold -mt-0.5">DyanoCharge</p>
               </div>
             </div>
             <StepIndicator current={Math.min(step, 5)} total={6} />
           </div>
+
+          {/* Recommendation banner */}
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-3 bg-card/90 backdrop-blur-xl rounded-2xl shadow-card border border-border/60 px-4 py-3"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  ML Recommendation
+                </p>
+                <p className="text-sm font-semibold">
+                  {data.recommendation?.station === "AVOID"
+                    ? "Avoid charging now"
+                    : `Go to Station ${data.recommendation?.station}`}
+                </p>
+              </div>
+              <span
+                className={`text-[10px] font-bold px-2 py-1 rounded-full ${
+                  data.recommendation?.ledStatus === "RED"
+                    ? "text-destructive bg-destructive/10"
+                    : "text-success bg-success/10"
+                }`}
+              >
+                LED {data.recommendation?.ledStatus}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              {data.recommendation?.reason}
+            </p>
+          </motion.div>
 
           {/* Search bar */}
           {step < 2 && (
@@ -85,7 +179,7 @@ const Index = () => {
       {/* Map */}
       <div className="fixed inset-0">
         <MapView
-          stations={STATIONS}
+          stations={stations}
           showStations={step >= 1}
           selectedId={selectedId}
           onSelect={handleSelect}
@@ -111,7 +205,9 @@ const Index = () => {
                 </div>
                 <div>
                   <p className="text-sm font-semibold">Locating your vehicle…</p>
-                  <p className="text-xs text-muted-foreground">Connecting to onboard GPS</p>
+                  <p className="text-xs text-muted-foreground">
+                    Connecting to onboard GPS
+                  </p>
                 </div>
               </motion.div>
             )}
@@ -125,7 +221,12 @@ const Index = () => {
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="space-y-3"
               >
-                <BatteryStatus level={battery} range={range} onLevelChange={setBattery} />
+                <BatteryStatus
+                  level={battery}
+                  range={range}
+                  onLevelChange={setManualBattery}
+                />
+
                 <motion.div
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -133,11 +234,22 @@ const Index = () => {
                   className="bg-card/95 backdrop-blur-xl rounded-3xl shadow-sheet border border-border/60 p-4 flex items-center justify-between"
                 >
                   <div>
-                    <p className="text-sm font-semibold">{STATIONS.length} stations nearby</p>
-                    <p className="text-xs text-muted-foreground">Tap a marker to view details</p>
+                    <p className="text-sm font-semibold">
+                      {stations.length} stations nearby
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Grid headroom: {data.grid.headroom}% · Battery:{" "}
+                      {data.vehicle.battery}%
+                    </p>
                   </div>
-                  <span className="text-[10px] font-bold text-success bg-success/10 px-2 py-1 rounded-full">
-                    Live data
+                  <span
+                    className={`text-[10px] font-bold px-2 py-1 rounded-full ${
+                      data.grid.status === "RED"
+                        ? "text-destructive bg-destructive/10"
+                        : "text-success bg-success/10"
+                    }`}
+                  >
+                    Grid {data.grid.status}
                   </span>
                 </motion.div>
               </motion.div>
@@ -162,6 +274,7 @@ const Index = () => {
                   <ChevronLeft className="w-3.5 h-3.5" />
                   Back to map
                 </button>
+
                 <StationDetails
                   station={selected}
                   showMetrics={step >= 3}
@@ -176,7 +289,9 @@ const Index = () => {
 
       {/* Confirmation overlay */}
       <AnimatePresence>
-        {step === 5 && selected && <ConfirmationScreen station={selected} onDone={reset} />}
+        {step === 5 && selected && (
+          <ConfirmationScreen station={selected} onDone={reset} />
+        )}
       </AnimatePresence>
     </main>
   );

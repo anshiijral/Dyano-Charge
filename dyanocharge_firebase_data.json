@@ -1,0 +1,53 @@
+{
+  "stations": {
+    "A": {
+      "load": 40,
+      "loadStatus": "GREEN",
+      "occupancy": 0,
+      "occupied": false,
+      "distance": 0.5,
+      "waitingTime": 3,
+      "sensorDistanceCm": 25
+    },
+    "B": {
+      "load": 95,
+      "loadStatus": "RED",
+      "occupancy": 3,
+      "occupied": true,
+      "distance": 1.2,
+      "waitingTime": 35,
+      "sensorDistanceCm": 30
+    },
+    "C": {
+      "load": 92,
+      "loadStatus": "RED",
+      "occupancy": 2,
+      "occupied": true,
+      "distance": 2,
+      "waitingTime": 28,
+      "sensorDistanceCm": 10
+    },
+    "D": {
+      "load": 68,
+      "loadStatus": "GREEN",
+      "occupancy": 1,
+      "occupied": true,
+      "distance": 2,
+      "waitingTime": 10,
+      "sensorDistanceCm": 10
+    }
+  },
+  "grid": {
+    "headroom": 45,
+    "status": "GREEN"
+  },
+  "vehicle": {
+    "battery": 60
+  },
+  "recommendation": {
+    "station": "A",
+    "ledStatus": "GREEN",
+    "reason": "Station A is currently suitable because it has low load, low waiting time, and is reachable.",
+    "updatedAt": "2026-01-01T10:00:00Z"
+  }
+}
