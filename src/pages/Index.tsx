@@ -20,32 +20,35 @@ const convertFirebaseToStations = (data: DashboardData): Station[] => {
     {
       id: "A",
       name: "Station A",
+      x: 28,
+      y: 42,
       distance: `${data.stations.A.distance} km`,
       load: data.stations.A.load,
-      loadStatus: data.stations.A.loadStatus,
-      occupancy: data.stations.A.occupancy,
-      waitingTime: data.stations.A.waitingTime,
-      available: data.stations.A.occupancy < 3,
+      freeSlots: Math.max(0, 3 - data.stations.A.occupancy),
+      totalSlots: 3,
+      waitMin: data.stations.A.waitingTime,
     },
     {
       id: "B",
       name: "Station B",
+      x: 68,
+      y: 36,
       distance: `${data.stations.B.distance} km`,
       load: data.stations.B.load,
-      loadStatus: data.stations.B.loadStatus,
-      occupancy: data.stations.B.occupancy,
-      waitingTime: data.stations.B.waitingTime,
-      available: data.stations.B.occupancy < 3,
+      freeSlots: Math.max(0, 3 - data.stations.B.occupancy),
+      totalSlots: 3,
+      waitMin: data.stations.B.waitingTime,
     },
     {
       id: "C",
       name: "Station C",
+      x: 52,
+      y: 72,
       distance: `${data.stations.C.distance} km`,
       load: data.stations.C.load,
-      loadStatus: data.stations.C.loadStatus,
-      occupancy: data.stations.C.occupancy,
-      waitingTime: data.stations.C.waitingTime,
-      available: data.stations.C.occupancy < 3,
+      freeSlots: Math.max(0, 3 - data.stations.C.occupancy),
+      totalSlots: 3,
+      waitMin: data.stations.C.waitingTime,
     },
   ];
 };
@@ -69,6 +72,14 @@ const Index = () => {
     return () => unsubscribe();
   }, []);
 
+    useEffect(() => {
+    if (step === 0) {
+      const t = setTimeout(() => setStep(1), 1400);
+      return () => clearTimeout(t);
+    }
+  }, [step]);
+
+
   if (!data) {
     return (
       <main className="min-h-screen bg-background flex items-center justify-center">
@@ -82,14 +93,6 @@ const Index = () => {
 
   const stations = convertFirebaseToStations(data);
   const selected = stations.find((s) => s.id === selectedId) ?? null;
-
-  // Auto-advance step 0 → 1
-  useEffect(() => {
-    if (step === 0) {
-      const t = setTimeout(() => setStep(1), 1400);
-      return () => clearTimeout(t);
-    }
-  }, [step]);
 
   const handleSelect = (id: string) => {
     setSelectedId(id);
