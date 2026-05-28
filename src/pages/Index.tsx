@@ -31,6 +31,7 @@ const Index = () => {
 
   const recommendation = useMemo(() => {
     if (!data) return null;
+    if (!data.stations?.A || !data.stations?.B || !data.stations?.C) return null;
     const overridden: DashboardData = {
       ...data,
       vehicle: { ...data.vehicle, battery },
