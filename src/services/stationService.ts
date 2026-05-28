@@ -9,6 +9,8 @@ export type StationData = {
   distance: number;
   waitingTime: number;
   sensorDistanceCm?: number;
+  lat: number;
+  lng: number;
 };
 
 export type DashboardData = {
