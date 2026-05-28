@@ -9,6 +9,7 @@ export type RecommendationResult = {
 
 function stationScore(station: {
   load: number;
+  loadStatus: "GREEN" | "RED";
   occupancy: number;
   distance: number;
   waitingTime: number;
@@ -24,24 +25,27 @@ function stationScore(station: {
 function isStationSafe(
   station: {
     load: number;
+    loadStatus: "GREEN" | "RED";
     occupancy: number;
     distance: number;
     waitingTime: number;
   },
   battery: number
 ) {
-  if (station.occupancy >= 3) return false;
-  if (station.load >= 95) return false;
-  if (station.waitingTime > 45) return false;
+  const fullRangeKm = 335;
+  const batteryRangeKm = (battery / 100) * fullRangeKm;
 
-  if (battery < 15 && station.distance > 1.5) return false;
-  if (battery < 10 && station.distance > 0.8) return false;
+  if (station.load >= 90) return false;
+  if (station.loadStatus === "RED") return false;
+  if (station.occupancy >= 3) return false;
+  if (station.waitingTime > 45) return false;
+  if (station.distance > batteryRangeKm) return false;
 
   return true;
 }
 
 export function getRecommendation(data: DashboardData): RecommendationResult {
-  if (data.grid.headroom <= 5) {
+  if (data.grid.headroom <= 5 || data.grid.status === "RED") {
     return {
       station: "AVOID",
       reason:
@@ -68,7 +72,7 @@ export function getRecommendation(data: DashboardData): RecommendationResult {
     return {
       station: "AVOID",
       reason:
-        "No station is currently safe, reachable, and available for charging.",
+        "No station is currently safe, reachable, and available. The system is avoiding overloaded, full, high-wait, or out-of-range stations.",
     };
   }
 
@@ -78,6 +82,6 @@ export function getRecommendation(data: DashboardData): RecommendationResult {
 
   return {
     station: best.name,
-    reason: `Station ${best.name} is recommended because it has the best balance of load, waiting time, distance, occupancy, and battery reachability.`,
+    reason: `Station ${best.name} is recommended because it is safe, reachable with the current battery, not overloaded, and has the best balance of load, waiting time, distance, and occupancy.`,
   };
 }
