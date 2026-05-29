@@ -240,17 +240,6 @@ const Index = () => {
                 <span className="text-xl font-bold text-muted-foreground">
                   %
                 </span>
-
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={battery}
-                  onChange={(event) =>
-                    setManualBattery(Number(event.target.value))
-                  }
-                  className="flex-1"
-                />
               </div>
 
               <p className="mt-2 text-xs text-muted-foreground">
